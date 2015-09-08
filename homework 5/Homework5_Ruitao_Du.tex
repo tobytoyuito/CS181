@@ -1,0 +1,154 @@
+%Jennifer Pan, August 2011
+
+\documentclass[10pt,letter]{article}
+	% basic article document class
+	% use percent signs to make comments to yourself -- they will not show up.
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+	% packages that allow mathematical formatting
+
+\usepackage{graphicx}
+	% package that allows you to include graphics
+
+\usepackage{setspace}
+	% package that allows you to change spacing
+
+\onehalfspacing
+	% text become 1.5 spaced
+
+\usepackage{fullpage}
+	% package that specifies normal margins
+
+\usepackage{hyperref}
+
+\usepackage{subfig}
+
+\usepackage{verbatim}
+
+\usepackage[parfill]{parskip}
+
+\usepackage{listings}
+
+\usepackage{color}
+
+\usepackage{booktabs}
+
+\usepackage{multirow}
+
+\usepackage{longtable}
+
+\usepackage{common}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\voffset = -2em
+\headsep = 25pt %1.5em
+\lhead{\textsc{Ruitao Du}}
+\rhead{\textsc{CS181 Homework 5}}
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+ 
+\hypersetup{hidelinks=true}
+
+\allowdisplaybreaks
+
+\begin{document}
+	% line of code telling latex that your document is beginning
+
+
+\title{CS181 Homework 5}
+
+\author{\textsc{Ruitao (Toby) Du}}
+\date{04/04/2015}
+
+	% Note: when you omit this command, the current dateis automatically included
+ 
+\maketitle 
+	% tells latex to follow your header (e.g., title, author) commands.
+
+
+\section{Composing Kernel Functions}
+
+
+\begin{align*}
+	\theta_k \cdot \beta_{k,v} \w_{d,v}
+\end{align*}
+
+
+
+\newpage
+\section{Slack Variables and Importances}
+
+Assume we are drawing a D dimension Gaussian distributed data $\{X_d\}^D_{d=1}$. The distance from the origin is 
+\begin{align*}
+	Dist(\{X_d\}^D_{d=1}) = \sqrt{\sum^D_{d=1} X_d^2}
+\end{align*}
+Because our Gaussian distribution has an identity covariance
+matrix, data in each dimension is independent. Also, it has zero mean. We know that this satisfies the definition of $\chi$ distribution with ~$D$ degree of freedom.
+Now I draw 10000 data from 3-dimension Gaussian distribution. And then I calculate the distance from origin and plot $\chi$ distribution with 3 degree of freedom.
+\begin{align*}
+	Dist(\{X_d\}^D_{d=1}) \sim \chi_D
+\end{align*}
+\includegraphics[scale=1]{2a}
+As we can see from the plot, the samples are similar to the $\chi$ distribution with 3 degree of freedom.
+
+\newpage
+\section{Implement K-Means}
+
+I choose the MNIST Handwritten Digits database. I use np.ravel() to turn a matrix of pixels to a vector. And then I run my K-means algorithm on $k=6,8,10,12$\\
+\\
+$k=12$\\
+Mean images:\\
+\includegraphics[scale=0.4]{3_mean12}\\
+\\
+Corresponding representative images:\\
+\includegraphics[scale=0.4]{3_rep12}\\
+\\
+\newpage
+$k=10$\\
+Mean images:\\
+\includegraphics[scale=0.4]{3_mean10}\\
+\\
+Corresponding representative images:\\
+\includegraphics[scale=0.4]{3_rep10}\\
+\newpage
+$k=8$\\
+Mean images:\\
+\includegraphics[scale=0.4]{3_mean8}\\
+\\
+Corresponding representative images:\\
+\includegraphics[scale=0.4]{3_rep8}\\
+\newpage
+$k=6$\\
+Mean images:\\
+\includegraphics[scale=0.4]{3_mean6}\\
+\\
+Corresponding representative images:\\
+\includegraphics[scale=0.4]{3_rep6}\\
+\newpage
+Objective function of each k is \\
+\includegraphics[scale=0.8]{3_obj}\\
+As we can see, 7 and 9 are difficult to distinguish. Ideally, we have 10 digits and we can cluster 10 different clusters in 10 digits. However, some number is difficult to distinguish, so we may have two or three similar mean images. 
+
+From the plot of objective function, it is monotonically decreasing after every iteration. We also learn that if we choose larger k, usually it takes more interations to converge. 
+
+	
+\newpage
+\section{Implement K-Means++}
+
+I implemented K-Means++ algorithm and the results are a little improved because I can train 9 distint mean images.\\
+\includegraphics[scale=0.4]{4_b}\\
+\\
+I try 50 times of K-means and K-means++ algorithms to initialize and calculate the objective funcion.
+\includegraphics[scale=1]{4_a}\\
+As we can see that K-means++ are more likely to yield a lower objective value. It means that when we use K-means++ algorithm, we may have more reasonable initialization and may converge more quickly.
+
+\newpage
+\section{Calibration}
+8 hours
+	
+\end{document}
+	% line of code telling latex that your document is ending. If you leave this out, you'll get an error
